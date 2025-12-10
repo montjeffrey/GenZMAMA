@@ -1,14 +1,24 @@
 import Link from "next/link";
-import PolaroidFrame from "../ui/PolaroidFrame";
 import WashiTape from "../ui/WashiTape";
+import { sanityFetch } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
 
-const posts = [
-    { id: 1, title: "5 Messy Play Ideas", category: "Activities", image: "/assets/placeholder-1.jpg", color: "terracotta" },
-    { id: 2, title: "Toddler Meal Prep Hacks", category: "Nutrition", image: "/assets/placeholder-2.jpg", color: "forest" },
-    { id: 3, title: "Sleep Training 101", category: "Parenting Tips", image: "/assets/placeholder-3.jpg", color: "brown" },
-];
+const BLOG_TEASER_QUERY = `*[_type == "post"] | order(publishedAt desc)[0...3] {
+  "id": _id,
+  title,
+  "slug": slug.current,
+  category,
+  mainImage,
+  themeColor
+}`;
 
-export default function BlogTeaser() {
+export default async function BlogTeaser() {
+    const posts = await sanityFetch<any[]>({ query: BLOG_TEASER_QUERY, tags: ["post"] });
+
+    if (!posts || posts.length === 0) {
+        return null; // Or return a fallback UI
+    }
+
     return (
         <section className="py-20 bg-white relative">
             {/* Background Accent */}
@@ -27,15 +37,22 @@ export default function BlogTeaser() {
 
                 <div className="grid md:grid-cols-3 gap-8">
                     {posts.map((post, i) => (
-                        <Link key={post.id} href={`/blog/${post.id}`} className="group">
+                        <Link key={post.id} href={`/blog/${post.slug}`} className="group">
                             <div className="relative transform transition-all duration-300 group-hover:-translate-y-2">
-                                <WashiTape color={post.color as any} className="w-24 left-1/2 -translate-x-1/2 -top-3 z-10" />
+                                <WashiTape color={post.themeColor || "terracotta"} className="w-24 left-1/2 -translate-x-1/2 -top-3 z-10" />
                                 <div className="bg-white p-4 shadow-md border border-stone-100">
                                     <div className="aspect-square bg-stone-100 mb-4 overflow-hidden relative">
-                                        {/* Image Placeholder */}
-                                        <div className="absolute inset-0 flex items-center justify-center text-stone-400 font-hand text-2xl bg-stone-100 group-hover:scale-105 transition-transform duration-500">
-                                            Image
-                                        </div>
+                                        {post.mainImage ? (
+                                            <img
+                                                src={urlFor(post.mainImage).width(500).height(500).url()}
+                                                alt={post.title}
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            />
+                                        ) : (
+                                            <div className="absolute inset-0 flex items-center justify-center text-stone-400 font-hand text-2xl bg-stone-100">
+                                                Image
+                                            </div>
+                                        )}
                                     </div>
                                     <span className="text-xs font-bold uppercase tracking-widest text-[#8B4513]/60 mb-1 block">{post.category}</span>
                                     <h3 className="text-2xl font-hand text-warm-brown leading-none group-hover:text-terracotta transition-colors">{post.title}</h3>

@@ -1,10 +1,20 @@
+"use client";
+
 import Link from "next/link";
+import { motion, useScroll, useTransform } from "framer-motion";
+import dynamic from "next/dynamic";
 import WashiTape from "../ui/WashiTape";
 import PolaroidFrame from "../ui/PolaroidFrame";
-import Scene from "../canvas/Scene";
-import Hero3D from "../canvas/Hero3D";
+import TornEdge from "../ui/TornEdge";
+
+const Scene = dynamic(() => import("../canvas/Scene"), { ssr: false });
+const Hero3D = dynamic(() => import("../canvas/Hero3D"), { ssr: false });
 
 export default function Hero() {
+    const { scrollY } = useScroll();
+    const y = useTransform(scrollY, [0, 500], [0, 100]);
+    const rotate = useTransform(scrollY, [0, 500], [3, 10]);
+
     return (
         <section className="relative min-h-[90vh] flex items-center overflow-hidden">
             {/* 3D Background Layer */}
@@ -26,7 +36,7 @@ export default function Hero() {
                     </div>
 
                     <p className="text-xl md:text-2xl font-sans text-stone-600 max-w-lg">
-                        Serving Dover, NJ & Surrounding Areas. Reliable care for professional parents and new moms who need a trusted partner.
+                        Serving Wharton, NJ & Surrounding Areas. Reliable care for professional parents and new moms who need a trusted partner.
                     </p>
 
                     <div className="flex gap-4 pt-4">
@@ -41,22 +51,25 @@ export default function Hero() {
 
                 {/* Right: Visuals (Polaroid + 3D) */}
                 <div className="relative flex justify-center">
-                    {/* We can use Hero3D here if we use View implementation, but for now let's stick to DOM + standard R3F background */}
-                    <div className="relative rotate-3 hover:rotate-0 transition-transform duration-500">
+                    {/* Parallax effect on the Polaroid */}
+                    <motion.div
+                        style={{ y, rotate }}
+                        className="relative transition-transform duration-500 hover:rotate-0 hover:scale-105"
+                    >
                         <WashiTape color="terracotta" className="w-32 -top-4 left-1/2 -translate-x-1/2 z-20" />
-                        <PolaroidFrame rotation={3} caption="Adventures everyday!" className="max-w-md w-full">
+                        <PolaroidFrame rotation={0} caption="Adventures everyday!" className="max-w-md w-full">
                             {/* Placeholder Image - usually Next/Image */}
-                            <div className="w-full h-64 bg-stone-200 flex items-center justify-center text-stone-400">
-                                (Candid Photo of Yan)
+                            <div className="w-full h-64 bg-stone-200 flex items-center justify-center text-stone-400 bg-gradient-to-br from-terracotta/20 to-warm-brown/20">
+                                <span className="font-hand text-2xl text-warm-brown opacity-60">Mrs. A & The Kids</span>
                             </div>
                         </PolaroidFrame>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
 
             {/* Torn Edge Separator */}
-            <div className="absolute bottom-0 w-full z-20">
-                {/* TornEdge component would go here, implemented via CSS or SVG */}
+            <div className="absolute bottom-0 w-full z-20 pointer-events-none">
+                <TornEdge position="bottom" className="text-paper-white" />
             </div>
         </section>
     );

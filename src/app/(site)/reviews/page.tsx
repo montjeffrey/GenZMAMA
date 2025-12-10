@@ -1,52 +1,14 @@
-"use client";
 
-import WashiTape from "../components/ui/WashiTape";
-import PolaroidFrame from "../components/ui/PolaroidFrame";
 
-const reviews = [
-    {
-        type: "polaroid",
-        name: "Sarah M.",
-        role: "Toddler Mom",
-        content: "Yan is literally a lifesaver. My daughter begs to go to her house. It's not just childcare, it's a whole vibe.",
-        date: "Oct 2023",
-        rotation: -2,
-    },
-    {
-        type: "sticky",
-        name: "Jessica T.",
-        role: "Working Mom",
-        content: "Finally, someone who gets it. No judgment, just pure love and fun. The updates she sends are hilarious and so reassuring.",
-        date: "Nov 2023",
-        color: "bg-yellow-100",
-        rotation: 3,
-    },
-    {
-        type: "polaroid",
-        name: "Emily R.",
-        role: "Boy Mom",
-        content: "The creative activities are next level. My son comes home with the coolest art projects (that are actually fridge-worthy).",
-        date: "Sept 2023",
-        rotation: 2,
-    },
-    {
-        type: "sticky",
-        name: "Michelle K.",
-        role: "Nurse & Mom",
-        content: "Flexible, reliable, and honestly just the coolest person. I trust her completely with my twins.",
-        date: "Dec 2023",
-        color: "bg-pink-100",
-        rotation: -4,
-    },
-    {
-        type: "polaroid",
-        name: "Amanda L.",
-        role: "First-time Mom",
-        content: "I was so nervous leaving my baby, but Yan made the transition so easy. She's basically family now.",
-        date: "Jan 2024",
-        rotation: 1,
-    },
-];
+import { Metadata } from "next";
+import WashiTape from "../../components/ui/WashiTape";
+import PolaroidFrame from "../../components/ui/PolaroidFrame";
+import { REVIEWS } from "@/lib/data";
+
+export const metadata: Metadata = {
+    title: "Reviews & Love Letters",
+    description: "Read what other mamas are saying about The Gen Z Mama. Real reviews from families in Wharton, NJ and surrounding areas.",
+};
 
 export default function ReviewsPage() {
     return (
@@ -68,7 +30,7 @@ export default function ReviewsPage() {
 
                 {/* Masonry-ish Grid */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 max-w-6xl mx-auto pb-20">
-                    {reviews.map((review, i) => (
+                    {REVIEWS.map((review, i) => (
                         <div key={i} className="flex justify-center p-4">
                             {review.type === "polaroid" ? (
                                 <div className="relative group perspective-1000">

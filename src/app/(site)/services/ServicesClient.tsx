@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import WashiTape from "../components/ui/WashiTape";
-import PolaroidFrame from "../components/ui/PolaroidFrame";
+import WashiTape from "../../components/ui/WashiTape";
+import PolaroidFrame from "../../components/ui/PolaroidFrame";
 import Link from "next/link";
 
-export default function ServicesPage() {
+export default function ServicesClient() {
     const [activeTab, setActiveTab] = useState<'facility' | 'travel'>('facility');
 
     return (
@@ -89,12 +89,36 @@ export default function ServicesPage() {
                         <WashiTape color="beige" className="w-48 -top-6 left-0 -rotate-2 z-10" />
                         <div className="bg-white p-2 shadow-lg border-4 border-white rotate-1">
                             {/* Placeholder for Google Map - Use iframe for low-tech/demo */}
-                            <div className="w-full h-96 bg-stone-200 flex items-center justify-center relative overflow-hidden group">
-                                <div className="text-stone-400 font-hand text-2xl">Google Map Embed: 20 Mile Radius around Dover, NJ</div>
-                                {/* Radius Circle Visualization Placeholder */}
-                                <div className="absolute w-64 h-64 border-4 border-dashed border-terracotta/40 rounded-full flex items-center justify-center opacity-50">
-                                    <div className="w-4 h-4 bg-terracotta rounded-full animate-ping"></div>
+                            {/* Custom "Paper Map" Visualization */}
+                            <div className="w-full h-96 bg-[#e8e4d9] relative overflow-hidden group">
+                                {/* Map Background Pattern (SVG Roads) */}
+                                <svg className="absolute inset-0 w-full h-full opacity-30" width="100%" height="100%">
+                                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#a8a29e" strokeWidth="0.5" />
+                                    </pattern>
+                                    <rect width="100%" height="100%" fill="url(#grid)" />
+                                    <path d="M-10,150 Q150,120 400,200 T900,100" fill="none" stroke="#d6d3c9" strokeWidth="8" />
+                                    <path d="M-10,300 Q300,350 600,250 T1000,300" fill="none" stroke="#d6d3c9" strokeWidth="6" />
+                                </svg>
+
+                                {/* Radius Circle */}
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="w-64 h-64 border-4 border-dashed border-terracotta rounded-full flex items-center justify-center bg-terracotta/10 relative transition-transform duration-700 group-hover:scale-110">
+                                        <div className="absolute -top-8 bg-white px-3 py-1 rounded shadow-md border border-stone-200 rotate-[-5deg]">
+                                            <span className="font-hand text-lg text-terracotta font-bold">20 Mile Radius</span>
+                                        </div>
+                                        {/* Pin Center */}
+                                        <div className="relative">
+                                            <div className="w-4 h-4 bg-terracotta rounded-full animate-ping absolute top-0 left-0"></div>
+                                            <div className="w-4 h-4 bg-terracotta rounded-full relative z-10 border-2 border-white"></div>
+                                        </div>
+                                        <div className="absolute mt-12 font-hand text-warm-brown font-bold text-xl drop-shadow-md">Wharton, NJ</div>
+                                    </div>
                                 </div>
+
+                                {/* Floating Pins (Decor) */}
+                                <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-forest-green rounded-full opacity-60"></div>
+                                <div className="absolute bottom-1/3 right-1/4 w-3 h-3 bg-forest-green rounded-full opacity-60"></div>
                             </div>
                         </div>
                     </div>

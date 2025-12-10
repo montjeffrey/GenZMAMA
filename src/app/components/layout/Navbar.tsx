@@ -1,19 +1,32 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import WashiTape from "../ui/WashiTape";
+import { AnimatePresence, motion } from "framer-motion";
 
 const navLinks = [
     { name: "Services", href: "/services" },
-    { name: "About Yan", href: "/about" },
+    { name: "About Mrs. A", href: "/about" },
     { name: "Mommy Blog", href: "/blog" },
     { name: "Reviews", href: "/reviews" },
 ];
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+
+    // Lock body scroll when menu is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+        return () => {
+            document.body.style.overflow = "unset";
+        };
+    }, [isOpen]);
 
     return (
         <nav className="fixed top-0 left-0 w-full z-40 bg-paper-white/90 backdrop-blur-sm border-b-2 border-dashed border-warm-brown/20 h-20">
@@ -51,18 +64,26 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Menu Overlay */}
-            {isOpen && (
-                <div className="md:hidden absolute top-20 left-0 w-full bg-paper-white h-screen flex flex-col items-center gap-8 pt-10 shadow-inner">
-                    {navLinks.map((link) => (
-                        <Link key={link.name} href={link.href} className="text-2xl font-hand text-warm-brown" onClick={() => setIsOpen(false)}>
-                            {link.name}
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "100vh" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="md:hidden absolute top-20 left-0 w-full bg-paper-white flex flex-col items-center gap-8 pt-10 shadow-inner overflow-hidden"
+                    >
+                        {navLinks.map((link) => (
+                            <Link key={link.name} href={link.href} className="text-2xl font-hand text-warm-brown" onClick={() => setIsOpen(false)}>
+                                {link.name}
+                            </Link>
+                        ))}
+                        <Link href="/contact" className="bg-terracotta text-white font-hand text-2xl px-8 py-3 rounded-full mt-4" onClick={() => setIsOpen(false)}>
+                            Inquire for Care
                         </Link>
-                    ))}
-                    <Link href="/contact" className="bg-terracotta text-white font-hand text-2xl px-8 py-3 rounded-full mt-4" onClick={() => setIsOpen(false)}>
-                        Inquire for Care
-                    </Link>
-                </div>
-            )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </nav>
     );
 }

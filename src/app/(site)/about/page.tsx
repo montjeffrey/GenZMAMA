@@ -1,8 +1,14 @@
-"use client";
 
+
+import { Metadata } from "next";
 import Link from "next/link";
-import WashiTape from "../components/ui/WashiTape";
-import PolaroidFrame from "../components/ui/PolaroidFrame";
+import WashiTape from "../../components/ui/WashiTape";
+import PolaroidFrame from "../../components/ui/PolaroidFrame";
+
+export const metadata: Metadata = {
+    title: "Meet Mrs. A",
+    description: "Get to know Mrs. A, the energetic force behind The Gen Z Mama. Experienced, fun, and reliable childcare in Wharton, NJ.",
+};
 
 export default function AboutPage() {
     return (
@@ -13,7 +19,7 @@ export default function AboutPage() {
                 <div className="text-center mb-20 relative">
                     <div className="relative inline-block">
                         <h1 className="text-6xl md:text-7xl font-hand text-terracotta mb-4 rotate-[-2deg] relative z-10">
-                            MeEt Yan
+                            MeEt Mrs. A
                         </h1>
                         <WashiTape color="forest" className="w-[120%] h-8 -bottom-2 -left-[10%] absolute opacity-30 z-0 rotate-1" />
                     </div>
@@ -28,13 +34,12 @@ export default function AboutPage() {
                     {/* Left Column: Photo */}
                     <div className="relative group perspective-1000">
                         <PolaroidFrame rotation={-3} className="p-4 bg-white shadow-xl transition-transform duration-500 group-hover:rotate-0">
-                            {/* Placeholder for Yan's Photo */}
-                            <div className="w-full aspect-[4/5] bg-stone-100 flex flex-col items-center justify-center relative overflow-hidden border-2 border-stone-100">
-                                <div className="text-6xl mb-4">✨</div>
-                                <span className="font-hand text-stone-400 text-2xl px-8 text-center">
-                                    [Yan's Photo Placeholder]
+                            {/* Placeholder for Mrs. A's Photo */}
+                            <div className="w-full aspect-[4/5] bg-stone-100 flex flex-col items-center justify-center relative overflow-hidden border-2 border-stone-100 bg-gradient-to-br from-orange-100 to-amber-50">
+                                <div className="text-6xl mb-4 grayscale opacity-50">✨</div>
+                                <span className="font-hand text-warm-brown/60 text-2xl px-8 text-center rotate-[-5deg]">
+                                    Only Good Vibes
                                 </span>
-                                <p className="text-stone-300 text-sm mt-2 font-sans">Upload your best selfie here!</p>
                             </div>
                         </PolaroidFrame>
                         <WashiTape color="beige" className="w-40 -top-6 -left-6 rotate-[-15deg] z-20 shadow-sm" />
@@ -48,7 +53,7 @@ export default function AboutPage() {
 
                         <div className="prose prose-lg text-warm-brown/90 font-sans">
                             <p className="text-xl leading-relaxed">
-                                <span className="font-hand text-3xl text-terracotta font-bold">Hi! I'm Yan.</span> I created The Gen Z Mama because I believe childcare shouldn't feel transactional. It should feel like family (but the cool kind of family).
+                                <span className="font-hand text-3xl text-terracotta font-bold">Hi! I'm Mrs. A.</span> I created The Gen Z Mama because I believe childcare shouldn't feel transactional. It should feel like family (but the cool kind of family).
                             </p>
                             <p>
                                 With years of experience and a passion for child development, I've designed a space where safety meets creativity. We ditch the rigid curriculums for organic, play-based learning that actually excites little minds.

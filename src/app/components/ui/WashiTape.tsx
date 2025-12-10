@@ -1,5 +1,8 @@
+"use client";
+
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 const washiTapeVariants = cva(
     "absolute h-12 w-48 opacity-90 shadow-sm rotate-[-2deg]",
@@ -27,18 +30,18 @@ const washiTapeVariants = cva(
 interface WashiTapeProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "color">, VariantProps<typeof washiTapeVariants> { }
 
 export default function WashiTape({ className, color, pattern, ...props }: WashiTapeProps) {
-    // SVG Mask for jagged edges
-    const tapeMask = "polygon(2% 0%, 98% 0%, 100% 100%, 0% 100%)"; // Simplified clip path, ideally SVG
-
+    // SVG Mask for jagged edges - using clip path for now
     return (
-        <div
-            className={cn(washiTapeVariants({ color, pattern }), className)}
+        <motion.div
+            className={cn(washiTapeVariants({ color, pattern }), className, "hover:shadow-md cursor-pointer transition-shadow")}
             style={{
                 clipPath: "polygon(2% 0, 98% 1%, 100% 95%, 98% 100%, 2% 98%, 0% 5%)", // Rough shape
             }}
-            {...props}
+            whileHover={{ scale: 1.05, rotate: 0, zIndex: 20 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            {...(props as any)}
         >
             <div className="w-full h-full opacity-30 bg-white mix-blend-overlay animate-pulse-slow"></div>
-        </div>
+        </motion.div>
     );
 }

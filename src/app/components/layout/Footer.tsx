@@ -16,7 +16,7 @@ export default function Footer() {
                     <Link href="/contact">Inquire</Link>
                 </div>
                 <div className="text-sm opacity-60">
-                    © {new Date().getFullYear()} Yan's Childcare Services
+                    © {new Date().getFullYear()} Mrs. A's Childcare Services
                 </div>
             </div>
         </footer>
