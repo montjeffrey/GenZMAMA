@@ -15,11 +15,11 @@ export default function Hero3D() {
                 {/* Simple floating geometric shapes representing blocks/toys */}
                 <mesh position={[2, 1, -2]} rotation={[0.5, 0.5, 0]}>
                     <boxGeometry args={[1, 1, 1]} />
-                    <meshStandardMaterial color="#E2725B" />
+                    <meshStandardMaterial color="#fe019a" />
                 </mesh>
                 <mesh position={[-2, -1, -3]}>
                     <sphereGeometry args={[0.5, 32, 32]} />
-                    <meshStandardMaterial color="#228B22" />
+                    <meshStandardMaterial color="#39ff14" />
                 </mesh>
                 <ambientLight intensity={0.5} />
                 <directionalLight position={[10, 10, 5]} intensity={1} />
