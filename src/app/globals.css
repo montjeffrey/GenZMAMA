@@ -1,12 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  /* Earthy & Natural Palette [cite: 7-10] */
+  /* Earthy & Natural Palette [cite: 7-10] 
   --color-terracotta: #E2725B;
-  /*--color-forest-green: #228B22;*/
-  --color-forest-green: #39ff14;
-  --color-warm-brown: #8B4513;
+  --color-forest-green: #228B22;
+  
+  --color-warm-brown: #8B4513;*/
   --color-paper-white: #F5F5DC;
+
+  /*Redid color palette without changing names*/
+  --color-terracotta: #fe019a;
+  /*neon pink*/
+  --color-forest-green: #39ff14;
+  /*neon green*/
+  --color-warm-brown: #04d9ff;
+  /*sky blue*/
 
   --font-patrick-hand: var(--font-patrick-hand);
   --font-quicksand: var(--font-quicksand);
