@@ -16,7 +16,7 @@ export default function Hero() {
     const rotate = useTransform(scrollY, [0, 500], [3, 10]);
 
     return (
-        <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+        <section className="relative min-h-[150vh] md:min-h-[90vh] flex items-center overflow-hidden">
             {/* 3D Background Layer */}
             <div className="absolute inset-0 z-0 pointer-events-none">
                 <Scene>
@@ -68,7 +68,7 @@ export default function Hero() {
             </div>
 
             {/* Torn Edge Separator */}
-            <div className="absolute bottom-0 w-full z-20 pointer-events-none">
+            <div className="absolute -bottom-2 w-full z-20 pointer-events-none">
                 <TornEdge position="bottom" className="text-paper-white" />
             </div>
         </section>
