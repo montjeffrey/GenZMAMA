@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import dynamic from "next/dynamic";
 import WashiTape from "../ui/WashiTape";
@@ -59,8 +60,15 @@ export default function Hero() {
                         <WashiTape color="terracotta" className="w-32 -top-4 left-1/2 -translate-x-1/2 z-20" />
                         <PolaroidFrame rotation={0} caption="Adventures everyday!" className="max-w-md w-full">
                             {/* Placeholder Image - usually Next/Image */}
-                            <div className="w-full h-64 bg-stone-200 flex items-center justify-center text-stone-400 bg-gradient-to-br from-terracotta/20 to-warm-brown/20">
-                                <span className="font-hand text-2xl text-warm-brown opacity-60">Mrs. A & The Kids</span>
+                            <div className="relative w-full aspect-[4/5] bg-stone-200">
+                                <Image
+                                    src="/images/hero-polaroid.jpg"
+                                    alt="Mrs. A & The Kids"
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, 400px"
+                                    priority
+                                />
                             </div>
                         </PolaroidFrame>
                     </motion.div>
