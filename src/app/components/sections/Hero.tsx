@@ -12,11 +12,11 @@ const Hero3D = dynamic(() => import("../canvas/Hero3D"), { ssr: false });
 
 export default function Hero() {
     const { scrollY } = useScroll();
-    const y = useTransform(scrollY, [0, 500], [0, 100]);
+    const y = useTransform(scrollY, [0, 700], [0, 250]);
     const rotate = useTransform(scrollY, [0, 500], [3, 10]);
 
     return (
-        <section className="relative min-h-[150vh] md:min-h-[90vh] flex items-center overflow-hidden">
+        <section className="relative min-h-[90vh] flex items-center overflow-hidden pb-24">
             {/* 3D Background Layer */}
             <div className="absolute inset-0 z-0 pointer-events-none">
                 <Scene>
@@ -68,7 +68,7 @@ export default function Hero() {
             </div>
 
             {/* Torn Edge Separator */}
-            <div className="absolute -bottom-2 w-full z-20 pointer-events-none">
+            <div className="absolute bottom-0 w-full z-20 pointer-events-none">
                 <TornEdge position="bottom" className="text-paper-white" />
             </div>
         </section>
