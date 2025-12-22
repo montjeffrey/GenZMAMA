@@ -24,7 +24,7 @@ export default function PolaroidFrame({
             style={{ transform: `rotate(${rotation}deg)` }}
             {...props}
         >
-            <div className={cn("relative overflow-hidden shrink-0", fitContent ? "" : "aspect-[4/5] bg-gray-100")}>
+            <div className={cn("relative overflow-y-auto shrink-0 scrollbar-thin", fitContent ? "" : "aspect-[4/5] bg-gray-100")}>
                 {children}
             </div>
             {caption && (
