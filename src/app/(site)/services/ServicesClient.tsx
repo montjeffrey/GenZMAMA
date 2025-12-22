@@ -54,21 +54,43 @@ export default function ServicesClient() {
                                     </tr>
                                 </thead>
                                 <tbody className="text-stone-600">
-                                    <tr className="border-b border-stone-100 hover:bg-stone-50">
-                                        <td className="py-4 pl-4 font-bold">Date Night</td>
-                                        <td className="py-4">4 hours (6pm - 10pm)</td>
-                                        <td className="py-4 pr-4 text-right">{activeTab === 'facility' ? '$80' : '$120'}</td>
-                                    </tr>
-                                    <tr className="border-b border-stone-100 hover:bg-stone-50">
-                                        <td className="py-4 pl-4 font-bold">Full Day</td>
-                                        <td className="py-4">8 hours (8am - 4pm)</td>
-                                        <td className="py-4 pr-4 text-right">{activeTab === 'facility' ? '$150' : '$200'}</td>
-                                    </tr>
-                                    <tr className="border-b border-stone-100 hover:bg-stone-50">
-                                        <td className="py-4 pl-4 font-bold">Hourly Rate</td>
-                                        <td className="py-4">Ad-hoc hours</td>
-                                        <td className="py-4 pr-4 text-right">{activeTab === 'facility' ? '$25/hr' : '$35/hr'}</td>
-                                    </tr>
+                                    {activeTab === 'facility' ? (
+                                        <>
+                                            <tr className="border-b border-stone-100 hover:bg-stone-50">
+                                                <td className="py-4 pl-4 font-bold">Full Day</td>
+                                                <td className="py-4">8 hours (8am - 4pm)</td>
+                                                <td className="py-4 pr-4 text-right">$70</td>
+                                            </tr>
+                                            <tr className="border-b border-stone-100 hover:bg-stone-50">
+                                                <td className="py-4 pl-4 font-bold">Healthcare workers Extended hours</td>
+                                                <td className="py-4">8 hours (6am - 6pm)</td>
+                                                <td className="py-4 pr-4 text-right">$70</td>
+                                            </tr>
+                                            <tr className="border-b border-stone-100 hover:bg-stone-50">
+                                                <td className="py-4 pl-4 font-bold">Hourly Rate</td>
+                                                <td className="py-4">Ad-hoc hours</td>
+                                                <td className="py-4 pr-4 text-right">Inquire for details</td>
+                                            </tr>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <tr className="border-b border-stone-100 hover:bg-stone-50">
+                                                <td className="py-4 pl-4 font-bold">Daytime Rate</td>
+                                                <td className="py-4">Hourly</td>
+                                                <td className="py-4 pr-4 text-right">$28.50</td>
+                                            </tr>
+                                            <tr className="border-b border-stone-100 hover:bg-stone-50">
+                                                <td className="py-4 pl-4 font-bold">Overnight Newborn Care</td>
+                                                <td className="py-4">Hourly (10pm - 7am)</td>
+                                                <td className="py-4 pr-4 text-right">$35</td>
+                                            </tr>
+                                            <tr className="border-b border-stone-100 hover:bg-stone-50">
+                                                <td className="py-4 pl-4 font-bold">Sleep Training</td>
+                                                <td className="py-4">Per night (10pm - 7am)</td>
+                                                <td className="py-4 pr-4 text-right">$220</td>
+                                            </tr>
+                                        </>
+                                    )}
                                 </tbody>
                             </table>
                         </div>
