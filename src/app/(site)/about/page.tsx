@@ -19,7 +19,7 @@ export default function AboutPage() {
                 <div className="text-center mb-20 relative">
                     <div className="relative inline-block">
                         <h1 className="text-6xl md:text-7xl font-hand text-terracotta mb-4 rotate-[-2deg] relative z-10">
-                            MeEt Mrs. A
+                            Meet Mrs. A
                         </h1>
                         <WashiTape color="forest" className="w-[120%] h-8 -bottom-2 -left-[10%] absolute opacity-30 z-0 rotate-1" />
                     </div>

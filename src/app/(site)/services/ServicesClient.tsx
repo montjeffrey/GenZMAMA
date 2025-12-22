@@ -41,10 +41,10 @@ export default function ServicesClient() {
                     <PolaroidFrame rotation={0} className="w-full bg-white p-8">
                         <h2 className="text-3xl font-hand text-terracotta mb-6 flex items-center gap-2">
                             {activeTab === 'facility' ? '🏡 Facility Care Patterns' : '🚗 Travel Care Patterns'}
-                            <span className="text-sm font-sans text-stone-400 font-normal">(Sample Rates)</span>
+
                         </h2>
 
-                        <div className="overflow-x-auto">
+                        <div className="overflow-x-hidden overflow-y-scroll">
                             <table className="w-full font-sans text-left border-collapse">
                                 <thead>
                                     <tr className="border-b-2 border-dashed border-stone-200 text-warm-brown text-lg">
@@ -63,7 +63,7 @@ export default function ServicesClient() {
                                             </tr>
                                             <tr className="border-b border-stone-100 hover:bg-stone-50">
                                                 <td className="py-4 pl-4 font-bold">Healthcare workers Extended hours</td>
-                                                <td className="py-4">8 hours (6am - 6pm)</td>
+                                                <td className="py-4">12 hours (6am - 6pm) </td>
                                                 <td className="py-4 pr-4 text-right">$70</td>
                                             </tr>
                                             <tr className="border-b border-stone-100 hover:bg-stone-50">
