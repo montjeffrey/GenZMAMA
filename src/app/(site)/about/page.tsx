@@ -34,7 +34,7 @@ export default function AboutPage() {
                     {/* Left Column: Photo */}
                     <div className="relative group perspective-1000">
                         <PolaroidFrame rotation={-3} className="p-4 bg-white shadow-xl transition-transform duration-500 group-hover:rotate-0">
-                            {/* Placeholder for Mrs. A's Photo */}
+                            <img src="/images/mrs-a.jpeg" alt="Mrs. A" fill className="object-cover" />
                             <div className="w-full aspect-[4/5] bg-stone-100 flex flex-col items-center justify-center relative overflow-hidden border-2 border-stone-100 bg-gradient-to-br from-orange-100 to-amber-50">
                                 <div className="text-6xl mb-4 grayscale opacity-50">✨</div>
                                 <span className="font-hand text-warm-brown/60 text-2xl px-8 text-center rotate-[-5deg]">

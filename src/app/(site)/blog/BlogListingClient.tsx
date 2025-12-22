@@ -63,7 +63,7 @@ export default function BlogListingClient({ initialPosts }: BlogListingClientPro
                                     <BlogCard
                                         post={post}
                                         rotation={i % 2 === 0 ? -1 : 1}
-                                        className="w-full max-w-sm"
+                                        className="w-full"
                                     />
                                 </div>
                             ))}
@@ -76,7 +76,7 @@ export default function BlogListingClient({ initialPosts }: BlogListingClientPro
                                 <BlogCard
                                     post={post}
                                     rotation={i % 2 === 0 ? -1 : 1}
-                                    className="w-full max-w-sm"
+                                    className="w-full"
                                 />
                             </div>
                         ))}
