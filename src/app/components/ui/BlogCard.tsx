@@ -27,7 +27,7 @@ export default function BlogCard({ post, className, rotation = 0 }: BlogCardProp
     const tapeColor = (post.themeColor as "terracotta" | "forest" | "brown" | "beige") || "terracotta";
 
     return (
-        <Link href={`/blog/${post.slug}`} className="block group">
+        <Link href={`/blog/${post.slug}`} className="block group max-w-sm w-full">
             <div
                 className={cn(
                     "relative bg-white p-3 shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[1.02] hover:z-10",

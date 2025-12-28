@@ -57,26 +57,24 @@ export default function BlogListingClient({ initialPosts }: BlogListingClientPro
                 {/* Hydration Fix: Use standard grid for server/initial render, then switch to Masonry to avoid layout mismatch */}
                 {mounted ? (
                     <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}>
-                        <Masonry gutter="2rem">
+                        <Masonry gutter="2.5rem">
                             {filteredPosts.map((post, i) => (
-                                <div key={post.id} className="mb-8 flex justify-center">
+                                <div key={post.id} className="p-4 flex justify-center">
                                     <BlogCard
                                         post={post}
                                         rotation={i % 2 === 0 ? -1 : 1}
-                                        className="w-full"
                                     />
                                 </div>
                             ))}
                         </Masonry>
                     </ResponsiveMasonry>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                         {filteredPosts.map((post, i) => (
-                            <div key={post.id} className="mb-8 flex justify-center">
+                            <div key={post.id} className="p-4 flex justify-center">
                                 <BlogCard
                                     post={post}
                                     rotation={i % 2 === 0 ? -1 : 1}
-                                    className="w-full"
                                 />
                             </div>
                         ))}

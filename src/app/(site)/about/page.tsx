@@ -34,13 +34,7 @@ export default function AboutPage() {
                     {/* Left Column: Photo */}
                     <div className="relative group perspective-1000">
                         <PolaroidFrame rotation={-3} className="p-4 bg-white shadow-xl transition-transform duration-500 group-hover:rotate-0">
-                            <img src="/images/mrs-a.jpeg" alt="Mrs. A" className="object-cover" />
-                            <div className="w-full aspect-[4/5] bg-stone-100 flex flex-col items-center justify-center relative overflow-hidden border-2 border-stone-100 bg-gradient-to-br from-orange-100 to-amber-50">
-                                <div className="text-6xl mb-4 grayscale opacity-50">✨</div>
-                                <span className="font-hand text-warm-brown/60 text-2xl px-8 text-center rotate-[-5deg]">
-                                    Only Good Vibes
-                                </span>
-                            </div>
+                            <img src="/images/mrs-a.jpeg" alt="Mrs. A" className="w-full aspect-[4/5] object-cover" />
                         </PolaroidFrame>
                         <WashiTape color="beige" className="w-40 -top-6 -left-6 rotate-[-15deg] z-20 shadow-sm" />
                         <WashiTape color="terracotta" className="w-32 -bottom-6 -right-6 rotate-[10deg] z-20 opacity-80" />
