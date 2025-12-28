@@ -19,7 +19,7 @@ interface InquiryEmailProps {
     childCount: string;
     childAges: string;
     startDate: string;
-    message: string;
+    message?: string;
 }
 
 export const InquiryEmail = ({
@@ -29,7 +29,7 @@ export const InquiryEmail = ({
     childCount,
     childAges,
     startDate,
-    message,
+    message = "",
 }: InquiryEmailProps) => {
     return (
         <Html>
