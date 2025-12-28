@@ -40,8 +40,8 @@ export async function submitInquiry(data: ContactFormData, token: string) {
 
             // Note: In development, Resend only sends to your verified email unless domain is set up
             const { error } = await resend.emails.send({
-                from: "Inquiry Form <onboarding@resend.dev>", // Update this when you have a custom domain
-                to: ["colom.jeffrey@gmail.com"], // REPLACE with Mrs. A's email or env var
+                from: "TheGenZMAMA Inquiry <notifications@Thegenzmama.com>", // Verified domain sender
+                to: [process.env.CONTACT_EMAIL || "colom.jeffrey@gmail.com"], // Environment variable or fallback
                 subject: `New Childcare Inquiry: ${result.data.parentName}`,
                 react: InquiryEmail({ ...result.data }),
             });
