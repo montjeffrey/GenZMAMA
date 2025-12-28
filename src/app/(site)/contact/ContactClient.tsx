@@ -24,13 +24,23 @@ export default function ContactClient() {
         setStatusMessage(null);
 
         if (!turnstileToken) {
-            turnstileRef.current?.reset();
-            setStatusMessage("Please verify you are human.");
-            return;
+            // Allow bypass in development
+            if (process.env.NODE_ENV === "development" || window.location.hostname === "localhost") {
+                console.log("[DEV] Bypassing client-side Turnstile check");
+                // We'll proceed with a dummy token. Backend security.ts handles this based solely on NODE_ENV check
+                // but we need to pass *something* so the client code below runs.
+                // We update state safely inside the transition/async flow below, or just pass a string directly to action.
+            } else {
+                turnstileRef.current?.reset();
+                setStatusMessage("Please verify you are human.");
+                return;
+            }
         }
 
+        const effectiveToken = turnstileToken || "DEV_BYPASS";
+
         startTransition(async () => {
-            const response = await submitInquiry(data, turnstileToken);
+            const response = await submitInquiry(data, effectiveToken);
 
             if (response.success) {
                 setIsSubmitted(true);
@@ -71,10 +81,9 @@ export default function ContactClient() {
                     {isSubmitted ? (
                         <div className="text-center py-12 px-4 space-y-6">
                             <div className="text-6xl animate-bounce">💌</div>
-                            <h2 className="text-3xl font-hand text-warm-brown text-center">Inquiry Drafted!</h2>
+                            <h2 className="text-3xl font-hand text-warm-brown text-center">Inquiry Sent!</h2>
                             <p className="font-sans text-stone-600 text-lg">
-                                Your email client should be opening with your details pre-filled.
-                                <br />Just hit <strong>Send</strong> and I'll get back to you!
+                                Thanks for reaching out! I've received your details and will get back to you shortly.
                             </p>
                             <button
                                 onClick={() => setIsSubmitted(false)}

@@ -65,13 +65,11 @@ export async function submitInquiry(data: ContactFormData, token: string) {
 
         } catch (err) {
             console.error("Failed to send email:", err);
+            return { success: false, message: "Server Error: Failed to send email." };
         }
     } else {
         console.warn("RESEND_API_KEY missing. Skipping email send.");
-        console.log("---- SIMULATED EMAIL CONTENT ----");
-        console.log("To: Owner");
-        console.log("Subject: New Inquiry");
-        console.log(result.data);
+        return { success: false, message: "Server Error: RESEND_API_KEY is missing. Check .env.local" };
     }
 
     // 5. Return success

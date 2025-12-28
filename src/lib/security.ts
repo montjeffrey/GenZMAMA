@@ -13,6 +13,12 @@ interface VerificationResult {
  * Verifies the Cloudflare Turnstile token with the Cloudflare API.
  */
 export async function verifyTurnstile(token: string): Promise<VerificationResult> {
+    // Bypass verification in development
+    if (process.env.NODE_ENV === "development") {
+        console.log("[DEV] Bypassing Turnstile verification");
+        return { success: true };
+    }
+
     const secretKey = process.env.TURNSTILE_SECRET_KEY;
 
     // Fail checking if key is missing (dev safety), but in prod this should be fatal or logged
