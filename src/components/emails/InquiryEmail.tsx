@@ -34,7 +34,7 @@ export const InquiryEmail = ({
     return (
         <Html>
             <Head>
-                <Font
+                {/* <Font
                     fontFamily="Roboto"
                     fallbackFontFamily="Verdana"
                     webFont={{
@@ -43,7 +43,7 @@ export const InquiryEmail = ({
                     }}
                     fontWeight={400}
                     fontStyle="normal"
-                />
+                /> */}
             </Head>
             <Preview>New Childcare Inquiry from {parentName}</Preview>
             <Body style={main}>

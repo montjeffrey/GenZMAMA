@@ -42,18 +42,21 @@ export async function submitInquiry(data: ContactFormData, token: string) {
         try {
             const { Resend } = await import("resend");
             const resend = new Resend(resendApiKey);
-            const { InquiryEmail } = await import("@/components/emails/InquiryEmail"); // Dynamically import to avoid server/client issues if any
+            const { InquiryEmail } = await import("@/components/emails/InquiryEmail");
+            const { render } = await import("@react-email/render");
 
             // Note: In development, Resend only sends to your verified email unless domain is set up
             console.log(`[DEBUG] Resend Client Initialized. Sending email...`);
             console.log(`[DEBUG] From: TheGenZMAMA Inquiry <notifications@Thegenzmama.com>`);
             console.log(`[DEBUG] To: ${toEmail}`);
 
+            const emailHtml = await render(InquiryEmail({ ...result.data }));
+
             const { data: emailData, error } = await resend.emails.send({
                 from: "TheGenZMAMA Inquiry <notifications@Thegenzmama.com>",
                 to: [toEmail],
                 subject: `New Childcare Inquiry: ${result.data.parentName}`,
-                react: InquiryEmail({ ...result.data }),
+                html: emailHtml,
             });
 
             if (error) {
@@ -63,9 +66,11 @@ export async function submitInquiry(data: ContactFormData, token: string) {
                 console.log("Email sent successfully via Resend. ID:", emailData?.id);
             }
 
-        } catch (err) {
+        } catch (err: any) {
             console.error("Failed to send email:", err);
-            return { success: false, message: "Server Error: Failed to send email." };
+            console.error("Error cause:", err?.cause);
+            console.error("Error stack:", err?.stack);
+            return { success: false, message: `Server Error: Failed to send email. Details: ${err?.message}` };
         }
     } else {
         console.warn("RESEND_API_KEY missing. Skipping email send.");
