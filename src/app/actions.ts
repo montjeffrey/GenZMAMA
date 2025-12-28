@@ -20,8 +20,10 @@ export async function submitInquiry(data: ContactFormData, token: string) {
     }
 
     // 3. Email Deliverability Check (MX Records)
-    // Check if the email domain actually accepts mail
+    console.log(`Checking MX records for provider: ${result.data.email.split('@')[1]}...`);
     const emailResult = await verifyEmailDeliverability(result.data.email);
+    console.log("MX Check Result:", emailResult);
+
     if (!emailResult.success) {
         return {
             success: false,
@@ -31,6 +33,10 @@ export async function submitInquiry(data: ContactFormData, token: string) {
 
     // 4. Send Email via Resend
     const resendApiKey = process.env.RESEND_API_KEY;
+    const toEmail = process.env.CONTACT_EMAIL || "montjeffrey@gmail.com";
+
+    console.log(`Attempting to send email to: ${toEmail}`);
+    console.log(`Using API Key: ${resendApiKey ? "Found (Starts with " + resendApiKey.substring(0, 5) + ")" : "MISSING"}`);
 
     if (resendApiKey) {
         try {
@@ -39,19 +45,19 @@ export async function submitInquiry(data: ContactFormData, token: string) {
             const { InquiryEmail } = await import("@/components/emails/InquiryEmail"); // Dynamically import to avoid server/client issues if any
 
             // Note: In development, Resend only sends to your verified email unless domain is set up
-            const { error } = await resend.emails.send({
+            const { data: emailData, error } = await resend.emails.send({
                 from: "TheGenZMAMA Inquiry <notifications@Thegenzmama.com>", // Verified domain sender
-                to: [process.env.CONTACT_EMAIL || "colom.jeffrey@gmail.com"], // Environment variable or fallback
+                to: [toEmail],
                 subject: `New Childcare Inquiry: ${result.data.parentName}`,
                 react: InquiryEmail({ ...result.data }),
             });
 
             if (error) {
-                console.error("Resend Error:", error);
+                console.error("CRITICAL RESEND ERROR:", error);
                 // We don't fail the request if email fails, but we log it.
                 // In production, you might want to throw or return partial success.
             } else {
-                console.log("Email sent successfully via Resend");
+                console.log("Email sent successfully via Resend. ID:", emailData?.id);
             }
 
         } catch (err) {

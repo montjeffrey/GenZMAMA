@@ -9,7 +9,7 @@ export const contactFormSchema = z.object({
     startDate: z.string().min(1, "Start date is required"),
     schedule: z.array(z.string()).optional(),
     allergies: z.string().optional(),
-    message: z.string().min(10, "Please tell us a bit more about your child"),
+    message: z.string().optional(),
 });
 
 export type ContactFormData = z.infer<typeof contactFormSchema>;
