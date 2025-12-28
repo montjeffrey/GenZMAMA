@@ -47,13 +47,13 @@ export async function submitInquiry(data: ContactFormData, token: string) {
 
             // Note: In development, Resend only sends to your verified email unless domain is set up
             console.log(`[DEBUG] Resend Client Initialized. Sending email...`);
-            console.log(`[DEBUG] From: TheGenZMAMA Inquiry <notifications@Thegenzmama.com>`);
+            console.log(`[DEBUG] From: TheGenZMAMA Inquiry <notifications@thegenzmama.com>`);
             console.log(`[DEBUG] To: ${toEmail}`);
 
             const emailHtml = await render(InquiryEmail({ ...result.data }));
 
             const { data: emailData, error } = await resend.emails.send({
-                from: "TheGenZMAMA Inquiry <notifications@Thegenzmama.com>",
+                from: "TheGenZMAMA Inquiry <notifications@thegenzmama.com>",
                 to: [toEmail],
                 subject: `New Childcare Inquiry: ${result.data.parentName}`,
                 html: emailHtml,
