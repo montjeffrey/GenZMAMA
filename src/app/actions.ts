@@ -45,17 +45,20 @@ export async function submitInquiry(data: ContactFormData, token: string) {
             const { InquiryEmail } = await import("@/components/emails/InquiryEmail"); // Dynamically import to avoid server/client issues if any
 
             // Note: In development, Resend only sends to your verified email unless domain is set up
+            console.log(`[DEBUG] Resend Client Initialized. Sending email...`);
+            console.log(`[DEBUG] From: TheGenZMAMA Inquiry <notifications@Thegenzmama.com>`);
+            console.log(`[DEBUG] To: ${toEmail}`);
+
             const { data: emailData, error } = await resend.emails.send({
-                from: "TheGenZMAMA Inquiry <notifications@Thegenzmama.com>", // Verified domain sender
+                from: "TheGenZMAMA Inquiry <notifications@Thegenzmama.com>",
                 to: [toEmail],
                 subject: `New Childcare Inquiry: ${result.data.parentName}`,
                 react: InquiryEmail({ ...result.data }),
             });
 
             if (error) {
-                console.error("CRITICAL RESEND ERROR:", error);
-                // We don't fail the request if email fails, but we log it.
-                // In production, you might want to throw or return partial success.
+                console.error("CRITICAL RESEND ERROR:", JSON.stringify(error, null, 2));
+                return { success: false, message: "Failed to send email. Please try again later." };
             } else {
                 console.log("Email sent successfully via Resend. ID:", emailData?.id);
             }
