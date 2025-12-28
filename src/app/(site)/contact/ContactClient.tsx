@@ -1,28 +1,54 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import WashiTape from "../../components/ui/WashiTape";
 import PolaroidFrame from "../../components/ui/PolaroidFrame";
 import { contactFormSchema, ContactFormData } from "@/lib/schemas";
 import { submitInquiry } from "../../actions";
+import { Turnstile, TurnstileInstance } from "@marsidev/react-turnstile";
 
 export default function ContactClient() {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isPending, startTransition] = useTransition();
+    const [statusMessage, setStatusMessage] = useState<string | null>(null);
+    const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+    const turnstileRef = useRef<TurnstileInstance>(null);
 
-    const { register, handleSubmit, formState: { errors } } = useForm<ContactFormData>({
+    const { register, handleSubmit, formState: { errors }, setError } = useForm<ContactFormData>({
         resolver: zodResolver(contactFormSchema),
     });
 
     const onSubmit = (data: ContactFormData) => {
+        setStatusMessage(null);
+
+        if (!turnstileToken) {
+            turnstileRef.current?.reset();
+            setStatusMessage("Please verify you are human.");
+            return;
+        }
+
         startTransition(async () => {
-            const response = await submitInquiry(data);
+            const response = await submitInquiry(data, turnstileToken);
+
             if (response.success) {
                 setIsSubmitted(true);
+                turnstileRef.current?.reset();
             } else {
-                alert("Something went wrong. Please try again.");
+                if (response.errors) {
+                    Object.entries(response.errors).forEach(([key, messages]) => {
+                        if (messages && messages.length > 0) {
+                            setError(key as keyof ContactFormData, { message: messages[0] });
+                        }
+                    });
+                } else if (response.message) {
+                    setStatusMessage(response.message);
+                } else {
+                    setStatusMessage("Something went wrong. Please try again.");
+                }
+                turnstileRef.current?.reset();
+                setTurnstileToken(null);
             }
         });
     };
@@ -114,7 +140,26 @@ export default function ContactClient() {
                                 </div>
                             </div>
 
+                            {/* Turnstile Widget */}
+                            <div className="flex justify-center my-4 min-h-[65px]">
+                                <Turnstile
+                                    ref={turnstileRef}
+                                    siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ""}
+                                    onSuccess={setTurnstileToken}
+                                    onExpire={() => setTurnstileToken(null)}
+                                    onError={() => setStatusMessage("Security check encountered an error.")}
+                                    options={{
+                                        theme: 'light',
+                                        size: 'flexible',
+                                        appearance: 'interaction-only'
+                                    }}
+                                />
+                            </div>
+
                             <div className="pt-4 text-center">
+                                {statusMessage && (
+                                    <p className="text-red-500 mb-4 font-hand">{statusMessage}</p>
+                                )}
                                 <button
                                     type="submit"
                                     disabled={isPending}
