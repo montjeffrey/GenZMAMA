@@ -33,7 +33,7 @@ export async function submitInquiry(data: ContactFormData, token: string) {
 
     // 4. Send Email via Resend
     const resendApiKey = process.env.RESEND_API_KEY;
-    const toEmail = process.env.CONTACT_EMAIL || "montjeffrey@gmail.com";
+    const toEmail = process.env.CONTACT_EMAIL || "thegenzmamallc@gmail.com";
 
     console.log(`Attempting to send email to: ${toEmail}`);
     // console.log(`Using API Key: ${resendApiKey ? "Found (Starts with " + resendApiKey.substring(0, 5) + ")" : "MISSING"}`); // VALIDATION: Removed to prevent secret leakage in build logs
