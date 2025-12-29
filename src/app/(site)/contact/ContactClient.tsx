@@ -75,6 +75,13 @@ export default function ContactClient() {
                         We prioritize safety and fit, so every enrollment starts with a chat.
                         <br /><strong>Vetting First:</strong> Submit this form &rarr; We Interview &rarr; Secure Booking.
                     </p>
+
+                    <div className="mt-8 pt-6 border-t border-dashed border-stone-300 max-w-xs mx-auto">
+                        <p className="font-hand text-xl text-stone-500 mb-1">Prefer to call?</p>
+                        <a href="tel:8622592517" className="font-sans font-bold text-2xl text-warm-brown hover:text-terracotta transition-colors flex items-center justify-center gap-2">
+                            <span>📞</span> 862-259-2517
+                        </a>
+                    </div>
                 </div>
 
                 <PolaroidFrame caption="Let's get to know each other!" rotation={1} className="bg-[#FAF9F6] p-4 md:p-8" fitContent={true}>
