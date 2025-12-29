@@ -10,6 +10,7 @@ export const contactFormSchema = z.object({
     schedule: z.array(z.string()).optional(),
     allergies: z.string().optional(),
     message: z.string().optional(),
+    serviceType: z.string().optional(),
 });
 
 export type ContactFormData = z.infer<typeof contactFormSchema>;

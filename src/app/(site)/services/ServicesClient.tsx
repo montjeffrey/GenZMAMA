@@ -62,7 +62,7 @@ export default function ServicesClient() {
                                                 <td className="py-4 pr-4 text-right">$70</td>
                                             </tr>
                                             <tr className="border-b border-stone-100 hover:bg-stone-50">
-                                                <td className="py-4 pl-4 font-bold">Healthcare workers Extended hours</td>
+                                                <td className="py-4 pl-4 font-bold">Healthcare Workers Extended Hours</td>
                                                 <td className="py-4">12 hours (6am - 6pm) </td>
                                                 <td className="py-4 pr-4 text-right">$70</td>
                                             </tr>
@@ -80,7 +80,14 @@ export default function ServicesClient() {
                                                 <td className="py-4 pr-4 text-right">$28.50</td>
                                             </tr>
                                             <tr className="border-b border-stone-100 hover:bg-stone-50">
-                                                <td className="py-4 pl-4 font-bold">Overnight Newborn Care</td>
+                                                <td className="py-4 pl-4 font-bold">
+                                                    <Link href="/at-your-home/overnight-newborn-care" className="text-terracotta hover:text-forest-green transition-colors flex items-center gap-2 group">
+                                                        Overnight Newborn Care
+                                                        <svg className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                        </svg>
+                                                    </Link>
+                                                </td>
                                                 <td className="py-4">Hourly (10pm - 7am)</td>
                                                 <td className="py-4 pr-4 text-right">$35</td>
                                             </tr>

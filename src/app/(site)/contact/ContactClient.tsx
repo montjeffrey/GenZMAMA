@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import WashiTape from "../../components/ui/WashiTape";
@@ -10,6 +11,14 @@ import { submitInquiry } from "../../actions";
 import { Turnstile, TurnstileInstance } from "@marsidev/react-turnstile";
 
 export default function ContactClient() {
+    const searchParams = useSearchParams();
+    const serviceParam = searchParams.get("service");
+
+    // Map URL param to specific dropdown values
+    const defaultService = serviceParam === "overnight"
+        ? "Overnight Newborn Care"
+        : "General Inquiry";
+
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isPending, startTransition] = useTransition();
     const [statusMessage, setStatusMessage] = useState<string | null>(null);
@@ -18,6 +27,9 @@ export default function ContactClient() {
 
     const { register, handleSubmit, formState: { errors }, setError } = useForm<ContactFormData>({
         resolver: zodResolver(contactFormSchema),
+        defaultValues: {
+            serviceType: defaultService
+        }
     });
 
     const onSubmit = (data: ContactFormData) => {
@@ -104,6 +116,18 @@ export default function ContactClient() {
                             {/* Parent Details */}
                             <div className="space-y-4">
                                 <h3 className="font-hand text-2xl text-terracotta border-b border-dashed border-terracotta/30 pb-2">Parent Details</h3>
+
+                                {/* Service Selection (Auto-filled) */}
+                                <div>
+                                    <label className="text-sm font-bold text-warm-brown mb-1">Service Interested In</label>
+                                    <select {...register("serviceType")} className="w-full border-2 border-stone-200 rounded-lg p-2 bg-white focus:border-terracotta outline-none">
+                                        <option value="General Inquiry">General Inquiry</option>
+                                        <option value="Facility Care (Wharton)">Facility Care (Wharton)</option>
+                                        <option value="Overnight Newborn Care">Overnight Newborn Care (In-Home)</option>
+                                        <option value="Travel Nanny">Travel Nanny</option>
+                                    </select>
+                                </div>
+
                                 <div className="grid md:grid-cols-2 gap-4">
                                     <div>
                                         <label className="text-sm font-bold text-warm-brown mb-1">Name</label>
