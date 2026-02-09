@@ -7,10 +7,10 @@ import WashiTape from "../ui/WashiTape";
 import { AnimatePresence, motion } from "framer-motion";
 
 const navLinks = [
-    { name: "Services", href: "/services" },
     { name: "About Mrs. A", href: "/about" },
+    { name: "Services", href: "/services" },
+    { name: "Overnight Newborn Care", href: "/at-your-home/overnight-newborn-care" },
     { name: "Mommy Blog", href: "/blog" },
-    { name: "Reviews", href: "/reviews" },
 ];
 
 export default function Navbar() {
@@ -43,9 +43,13 @@ export default function Navbar() {
                 {/* Desktop Links */}
                 <div className="hidden md:flex items-center gap-8 font-sans font-semibold text-warm-brown">
                     {navLinks.map((link) => (
-                        <Link key={link.name} href={link.href} className="hover:text-terracotta transition-colors relative group">
+                        <Link
+                            key={link.name}
+                            href={link.href}
+                            className="transition-colors relative group hover:text-terracotta"
+                        >
                             {link.name}
-                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-terracotta transition-all group-hover:w-full"></span>
+                            <span className="absolute -bottom-1 left-0 h-0.5 bg-terracotta transition-all w-0 group-hover:w-full"></span>
                         </Link>
                     ))}
                 </div>
@@ -74,7 +78,12 @@ export default function Navbar() {
                         className="md:hidden absolute top-20 left-0 w-full bg-paper-white flex flex-col items-center gap-8 pt-10 shadow-inner overflow-hidden"
                     >
                         {navLinks.map((link) => (
-                            <Link key={link.name} href={link.href} className="text-2xl font-hand text-warm-brown" onClick={() => setIsOpen(false)}>
+                            <Link
+                                key={link.name}
+                                href={link.href}
+                                className="text-2xl font-hand text-warm-brown"
+                                onClick={() => setIsOpen(false)}
+                            >
                                 {link.name}
                             </Link>
                         ))}
@@ -84,6 +93,6 @@ export default function Navbar() {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </nav>
+        </nav >
     );
 }
