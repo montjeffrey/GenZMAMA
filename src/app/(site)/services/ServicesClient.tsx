@@ -4,6 +4,7 @@ import { useState } from "react";
 import WashiTape from "../../components/ui/WashiTape";
 import PolaroidFrame from "../../components/ui/PolaroidFrame";
 import Link from "next/link";
+import MapClient from "../../components/ui/MapClient";
 
 export default function ServicesClient() {
     const [activeTab, setActiveTab] = useState<'facility' | 'travel'>('facility');
@@ -119,19 +120,15 @@ export default function ServicesClient() {
                             {/* Placeholder for Google Map - Use iframe for low-tech/demo */}
                             {/* Custom "Paper Map" Visualization */}
                             <div className="w-full h-64 md:h-96 bg-[#e8e4d9] relative overflow-hidden group">
-                                {/* Map Background Pattern (SVG Roads) */}
-                                <svg className="absolute inset-0 w-full h-full opacity-30" width="100%" height="100%">
-                                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#a8a29e" strokeWidth="0.5" />
-                                    </pattern>
-                                    <rect width="100%" height="100%" fill="url(#grid)" />
-                                    <path d="M-10,150 Q150,120 400,200 T900,100" fill="none" stroke="#d6d3c9" strokeWidth="8" />
-                                    <path d="M-10,300 Q300,350 600,250 T1000,300" fill="none" stroke="#d6d3c9" strokeWidth="6" />
-                                </svg>
+                                {/* Google Map */}
+                                <div className="absolute inset-0 w-full h-full">
+                                    <MapClient className="w-full h-full" />
+                                </div>
+                                {/* Map Background Pattern (SVG Roads) - KEEPING AS FALLBACK/UNDERLAY IF NEEDED, BUT HIDING FOR NOW */}
 
                                 {/* Radius Circle */}
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="w-48 h-48 md:w-64 md:h-64 border-4 border-dashed border-terracotta rounded-full flex items-center justify-center bg-terracotta/10 relative transition-transform duration-700 group-hover:scale-110">
+                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                    <div className="w-48 h-48 md:w-64 md:h-64 border-4 border-dashed border-terracotta rounded-full flex items-center justify-center relative transition-transform duration-700 group-hover:scale-110">
                                         <div className="absolute -top-6 md:-top-8 bg-white px-2 md:px-3 py-1 rounded shadow-md border border-stone-200 rotate-[-5deg]">
                                             <span className="font-hand text-base md:text-lg text-terracotta font-bold">20 Mile Radius</span>
                                         </div>
@@ -140,13 +137,13 @@ export default function ServicesClient() {
                                             <div className="w-3 h-3 md:w-4 md:h-4 bg-terracotta rounded-full animate-ping absolute top-0 left-0"></div>
                                             <div className="w-3 h-3 md:w-4 md:h-4 bg-terracotta rounded-full relative z-10 border-2 border-white"></div>
                                         </div>
-                                        <div className="absolute mt-8 md:mt-12 font-hand text-warm-brown font-bold text-lg md:text-xl drop-shadow-md">Wharton, NJ</div>
+                                        <div className="absolute mt-8 md:mt-12 font-hand text-warm-brown font-bold text-lg md:text-xl drop-shadow-md bg-white/80 px-2 rounded-sm backdrop-blur-sm">Wharton, NJ</div>
                                     </div>
                                 </div>
 
                                 {/* Floating Pins (Decor) */}
-                                <div className="absolute top-1/4 left-1/4 w-2 h-2 md:w-3 md:h-3 bg-forest-green rounded-full opacity-60"></div>
-                                <div className="absolute bottom-1/3 right-1/4 w-2 h-2 md:w-3 md:h-3 bg-forest-green rounded-full opacity-60"></div>
+                                <div className="absolute top-1/4 left-1/4 w-2 h-2 md:w-3 md:h-3 bg-forest-green rounded-full opacity-60 pointer-events-none"></div>
+                                <div className="absolute bottom-1/3 right-1/4 w-2 h-2 md:w-3 md:h-3 bg-forest-green rounded-full opacity-60 pointer-events-none"></div>
                             </div>
                         </div>
                     </div>
