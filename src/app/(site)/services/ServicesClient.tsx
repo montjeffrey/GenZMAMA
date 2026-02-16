@@ -78,7 +78,7 @@ export default function ServicesClient() {
                                             <tr className="border-b border-stone-100 hover:bg-stone-50">
                                                 <td className="py-4 pl-4 font-bold">Daytime Rate</td>
                                                 <td className="py-4">Hourly</td>
-                                                <td className="py-4 pr-4 text-right">$28.50</td>
+                                                <td className="py-4 pr-4 text-right">$32</td>
                                             </tr>
                                             <tr className="border-b border-stone-100 hover:bg-stone-50">
                                                 <td className="py-4 pl-4 font-bold">
@@ -95,7 +95,7 @@ export default function ServicesClient() {
                                             <tr className="border-b border-stone-100 hover:bg-stone-50">
                                                 <td className="py-4 pl-4 font-bold">Sleep Training</td>
                                                 <td className="py-4">Per night (10pm - 7am)</td>
-                                                <td className="py-4 pr-4 text-right">$220</td>
+                                                <td className="py-4 pr-4 text-right">$600</td>
                                             </tr>
                                         </>
                                     )}

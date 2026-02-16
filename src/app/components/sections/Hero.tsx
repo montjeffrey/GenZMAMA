@@ -55,14 +55,14 @@ export default function Hero() {
                     {/* Parallax effect on the Polaroid */}
                     <motion.div
                         style={{ y, rotate }}
-                        className="relative transition-transform duration-500 hover:rotate-0 hover:scale-105"
+                        className="relative transition-transform duration-500 hover:rotate-0 hover:scale-105 w-full max-w-sm md:max-w-sm"
                     >
                         <WashiTape color="terracotta" className="w-32 -top-4 left-1/2 -translate-x-1/2 z-20" />
-                        <PolaroidFrame rotation={0} caption="Adventures everyday!" className="max-w-md w-full">
+                        <PolaroidFrame rotation={0} caption="Adventures everyday!" className="w-full">
                             {/* Placeholder Image - usually Next/Image */}
                             <div className="relative w-full aspect-[4/5] bg-stone-200">
                                 <Image
-                                    src="/images/hero-polaroid.jpg"
+                                    src="/images/family-photo.jpeg"
                                     alt="Mrs. A & The Kids"
                                     fill
                                     className="object-cover"
