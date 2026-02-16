@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Float, Text3D, Center } from "@react-three/drei";
-import * as THREE from "three";
 
 export default function Hero3D() {
     // Placeholder for floating 3D elements (e.g. 3D letters or shapes)
@@ -27,3 +26,4 @@ export default function Hero3D() {
         </group>
     );
 }
+    

@@ -23,6 +23,7 @@ export default function BlogListingClient({ initialPosts }: BlogListingClientPro
     }, []);
 
     const filteredPosts = filter === "All"
+
         ? initialPosts
         : initialPosts.filter(post => post.category === filter);
 
@@ -59,7 +60,7 @@ export default function BlogListingClient({ initialPosts }: BlogListingClientPro
                     <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}>
                         <Masonry gutter="2.5rem">
                             {filteredPosts.map((post, i) => (
-                                <div key={post.id} className="p-4 flex justify-center">
+                                <div key={post.id} className="p-4">
                                     <BlogCard
                                         post={post}
                                         rotation={i % 2 === 0 ? -1 : 1}
@@ -71,7 +72,7 @@ export default function BlogListingClient({ initialPosts }: BlogListingClientPro
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                         {filteredPosts.map((post, i) => (
-                            <div key={post.id} className="p-4 flex justify-center">
+                            <div key={post.id} className="p-4">
                                 <BlogCard
                                     post={post}
                                     rotation={i % 2 === 0 ? -1 : 1}
