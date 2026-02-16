@@ -69,12 +69,12 @@ export const overnightContent = {
         options: [
             {
                 type: "Single Baby",
-                rate: 35, // hourly rate placeholder
+                rate: 42, // hourly rate placeholder
                 minHours: 8,
             },
             {
                 type: "Twins",
-                rate: 45, // hourly rate placeholder
+                rate: 55, // hourly rate placeholder
                 minHours: 8,
             },
         ],
