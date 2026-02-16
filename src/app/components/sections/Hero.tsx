@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import dynamic from "next/dynamic";
 import WashiTape from "../ui/WashiTape";
 import PolaroidFrame from "../ui/PolaroidFrame";
@@ -37,24 +37,8 @@ export default function Hero() {
     const y = useTransform(scrollYProgress, [0, 0.7], [0, targetY]);
     const rotate = useTransform(scrollYProgress, [0, 0.7], [3, 10]);
 
-    const [debugValues, setDebugValues] = useState({ y: 0, rotate: 0, progress: 0 });
-
-    useMotionValueEvent(scrollYProgress, "change", (latest) => {
-        setDebugValues({
-            y: Math.round(y.get()),
-            rotate: Math.round(rotate.get()),
-            progress: Math.round(latest * 100)
-        });
-    });
-
     return (
         <section ref={sectionRef} className="relative min-h-[90vh] flex items-center overflow-hidden pb-24">
-            {/* Debug Overlay */}
-            <div className="fixed top-24 right-4 z-50 bg-black/80 text-white p-4 rounded-lg font-mono text-sm pointer-events-none">
-                <p>Scroll: {debugValues.progress}%</p>
-                <p>Y: {debugValues.y}px</p>
-                <p>Rot: {debugValues.rotate}deg</p>
-            </div>
             {/* 3D Background Layer */}
             <div className="absolute inset-0 z-0 pointer-events-none">
                 <Scene>
