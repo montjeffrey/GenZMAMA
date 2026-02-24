@@ -17,7 +17,9 @@ export default function ContactClient() {
     // Map URL param to specific dropdown values
     const defaultService = serviceParam === "overnight"
         ? "Overnight Newborn Care"
-        : "General Inquiry";
+        : serviceParam === "sleep-consulting"
+            ? "Pediatric Sleep Consulting"
+            : "General Inquiry";
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isPending, startTransition] = useTransition();
@@ -124,6 +126,7 @@ export default function ContactClient() {
                                         <option value="General Inquiry">General Inquiry</option>
                                         <option value="Facility Care (Wharton)">Facility Care (Wharton)</option>
                                         <option value="Overnight Newborn Care">Overnight Newborn Care (In-Home)</option>
+                                        <option value="Pediatric Sleep Consulting">Pediatric Sleep Consulting</option>
                                         <option value="Travel Nanny">Travel Nanny</option>
                                     </select>
                                 </div>

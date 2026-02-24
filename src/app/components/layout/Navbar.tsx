@@ -1,20 +1,52 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import WashiTape from "../ui/WashiTape";
 import { AnimatePresence, motion } from "framer-motion";
 
-const navLinks = [
+type NavLink = {
+    name: string;
+    href: string;
+    subLinks?: { name: string; href: string }[];
+};
+
+const navLinks: NavLink[] = [
     { name: "About Mrs. A", href: "/about" },
-    { name: "Services", href: "/services" },
-    { name: "Overnight Newborn Care", href: "/at-your-home/overnight-newborn-care" },
+    {
+        name: "Services",
+        href: "/services",
+        subLinks: [
+            { name: "Services Overview", href: "/services" },
+            { name: "Overnight Newborn Care", href: "/at-your-home/overnight-newborn-care" },
+            { name: "Sleep Consulting", href: "/services/sleep-consulting" },
+        ]
+    },
     { name: "Mommy Blog", href: "/blog" },
 ];
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const [desktopHoveredItem, setDesktopHoveredItem] = useState<string | null>(null);
+    const [expandedMobileItem, setExpandedMobileItem] = useState<string | null>(null);
+    const desktopTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    const handleMouseEnter = (name: string) => {
+        if (desktopTimeoutRef.current) clearTimeout(desktopTimeoutRef.current);
+        setDesktopHoveredItem(name);
+    };
+
+    const handleMouseLeave = () => {
+        desktopTimeoutRef.current = setTimeout(() => {
+            setDesktopHoveredItem(null);
+        }, 150);
+    };
+
+    // Close mobile menu completely on route change or when closed
+    useEffect(() => {
+        if (!isOpen) setExpandedMobileItem(null);
+    }, [isOpen]);
 
     // Lock body scroll when menu is open
     useEffect(() => {
@@ -43,14 +75,69 @@ export default function Navbar() {
                 {/* Desktop Links */}
                 <div className="hidden md:flex items-center gap-8 font-sans font-semibold text-warm-brown">
                     {navLinks.map((link) => (
-                        <Link
+                        <div
                             key={link.name}
-                            href={link.href}
-                            className="transition-colors relative group hover:text-terracotta"
+                            className="relative"
+                            onMouseEnter={() => handleMouseEnter(link.name)}
+                            onMouseLeave={handleMouseLeave}
                         >
-                            {link.name}
-                            <span className="absolute -bottom-1 left-0 h-0.5 bg-terracotta transition-all w-0 group-hover:w-full"></span>
-                        </Link>
+                            <Link
+                                href={link.href}
+                                className="transition-colors relative group hover:text-terracotta flex items-center gap-1 py-4"
+                                aria-haspopup={link.subLinks ? "true" : undefined}
+                                aria-expanded={link.subLinks ? desktopHoveredItem === link.name : undefined}
+                                onFocus={() => setDesktopHoveredItem(link.name)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Escape') setDesktopHoveredItem(null);
+                                }}
+                            >
+                                {link.name}
+                                {link.subLinks && (
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={cn("transition-transform duration-200 mt-0.5", desktopHoveredItem === link.name ? "rotate-180" : "")}><path d="m6 9 6 6 6-6" /></svg>
+                                )}
+                                <span className={cn(
+                                    "absolute bottom-2 left-0 h-0.5 bg-terracotta transition-all",
+                                    desktopHoveredItem === link.name && link.subLinks ? "w-full" : "w-0 group-hover:w-full"
+                                )}></span>
+                            </Link>
+
+                            {/* Desktop Dropdown */}
+                            {link.subLinks && (
+                                <AnimatePresence>
+                                    {desktopHoveredItem === link.name && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: 10 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="absolute top-[80%] -left-4 mt-2 w-64 bg-paper-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-warm-brown/10 overflow-hidden z-50"
+                                            onMouseEnter={() => handleMouseEnter(link.name)}
+                                            onMouseLeave={handleMouseLeave}
+                                        >
+                                            <div className="flex flex-col py-3">
+                                                {link.subLinks.map((subLink) => (
+                                                    <Link
+                                                        key={subLink.name}
+                                                        href={subLink.href}
+                                                        className="px-6 py-2.5 text-warm-brown hover:bg-warm-brown/5 hover:text-terracotta transition-colors font-medium outline-none focus:bg-warm-brown/5 focus:text-terracotta relative group"
+                                                        onClick={() => setDesktopHoveredItem(null)}
+                                                        onFocus={() => setDesktopHoveredItem(link.name)}
+                                                        onBlur={(e) => {
+                                                            if (!e.currentTarget.parentElement?.contains(e.relatedTarget as Node)) {
+                                                                setDesktopHoveredItem(null);
+                                                            }
+                                                        }}
+                                                    >
+                                                        {subLink.name}
+                                                        <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 bg-terracotta transition-all group-hover:h-1/2 rounded-r"></span>
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            )}
+                        </div>
                     ))}
                 </div>
 
@@ -78,14 +165,52 @@ export default function Navbar() {
                         className="md:hidden absolute top-20 left-0 w-full bg-paper-white flex flex-col items-center gap-8 pt-10 shadow-inner overflow-hidden"
                     >
                         {navLinks.map((link) => (
-                            <Link
-                                key={link.name}
-                                href={link.href}
-                                className="text-2xl font-hand text-warm-brown"
-                                onClick={() => setIsOpen(false)}
-                            >
-                                {link.name}
-                            </Link>
+                            <div key={link.name} className="flex flex-col items-center w-full">
+                                {link.subLinks ? (
+                                    <>
+                                        <button
+                                            className="text-2xl font-hand text-warm-brown flex items-center justify-center gap-2 w-full py-3 px-4 active:bg-warm-brown/5 rounded-lg transition-colors"
+                                            onClick={() => setExpandedMobileItem(expandedMobileItem === link.name ? null : link.name)}
+                                            aria-expanded={expandedMobileItem === link.name}
+                                        >
+                                            {link.name}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={cn("transition-transform duration-200 mt-1", expandedMobileItem === link.name ? "rotate-180 text-terracotta" : "")}><path d="m6 9 6 6 6-6" /></svg>
+                                        </button>
+
+                                        <AnimatePresence>
+                                            {expandedMobileItem === link.name && (
+                                                <motion.div
+                                                    initial={{ height: 0, opacity: 0 }}
+                                                    animate={{ height: "auto", opacity: 1 }}
+                                                    exit={{ height: 0, opacity: 0 }}
+                                                    className="overflow-hidden flex flex-col items-center w-full"
+                                                >
+                                                    <div className="flex flex-col items-center py-2 gap-2 w-full bg-warm-brown/5 mb-4 border-y border-warm-brown/10 shadow-inner">
+                                                        {link.subLinks.map((subLink) => (
+                                                            <Link
+                                                                key={subLink.name}
+                                                                href={subLink.href}
+                                                                className="text-xl font-hand text-warm-brown/90 hover:text-terracotta py-3 px-8 w-full text-center active:bg-white/50"
+                                                                onClick={() => setIsOpen(false)}
+                                                            >
+                                                                {subLink.name}
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </>
+                                ) : (
+                                    <Link
+                                        href={link.href}
+                                        className="text-2xl font-hand text-warm-brown py-3 px-4 w-full text-center active:bg-warm-brown/5 rounded-lg transition-colors"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        {link.name}
+                                    </Link>
+                                )}
+                            </div>
                         ))}
                         <Link href="/contact" className="bg-terracotta text-white font-hand text-2xl px-8 py-3 rounded-full mt-4" onClick={() => setIsOpen(false)}>
                             Inquire for Care

@@ -93,9 +93,28 @@ export default function ServicesClient() {
                                                 <td className="py-4 pr-4 text-right">$42</td>
                                             </tr>
                                             <tr className="border-b border-stone-100 hover:bg-stone-50">
-                                                <td className="py-4 pl-4 font-bold">Sleep Training</td>
-                                                <td className="py-4">Per night (10pm - 7am)</td>
-                                                <td className="py-4 pr-4 text-right">$600</td>
+                                                <td className="py-4 pl-4 font-bold">
+                                                    <Link href="/services/postpartum-doula" className="text-terracotta hover:text-forest-green transition-colors flex items-center gap-2 group">
+                                                        Postpartum Doula
+                                                        <svg className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                        </svg>
+                                                    </Link>
+                                                </td>
+                                                <td className="py-4">Daytime & Overnight</td>
+                                                <td className="py-4 pr-4 text-right">Packages from $2,400</td>
+                                            </tr>
+                                            <tr className="border-b border-stone-100 hover:bg-stone-50">
+                                                <td className="py-4 pl-4 font-bold">
+                                                    <Link href="/services/sleep-consulting" className="text-terracotta hover:text-forest-green transition-colors flex items-center gap-2 group">
+                                                        Sleep Consulting
+                                                        <svg className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                        </svg>
+                                                    </Link>
+                                                </td>
+                                                <td className="py-4">Customized Support</td>
+                                                <td className="py-4 pr-4 text-right">Packages from $100</td>
                                             </tr>
                                         </>
                                     )}
