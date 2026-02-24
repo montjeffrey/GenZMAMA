@@ -11,10 +11,10 @@
   /*Redid color palette without changing names*/
   --color-terracotta: #fe019a;
   /*neon pink*/
-  --color-forest-green: #39ff14;
-  /*neon green*/
-  --color-warm-brown: #04d9ff;
-  /*sky blue*/
+  --color-forest-green: #00b300;
+  /*deeper neon green for better contrast*/
+  --color-warm-brown: #0088cc;
+  /*deeper sky blue for better contrast*/
 
   --font-patrick-hand: var(--font-patrick-hand);
   --font-quicksand: var(--font-quicksand);
