@@ -21,6 +21,7 @@ const navLinks: NavLink[] = [
             { name: "Services Overview", href: "/services" },
             { name: "Overnight Newborn Care", href: "/at-your-home/overnight-newborn-care" },
             { name: "Sleep Consulting", href: "/services/sleep-consulting" },
+            { name: "Postpartum Doula", href: "/services/postpartum-doula" },
         ]
     },
     { name: "Mommy Blog", href: "/blog" },
@@ -29,7 +30,7 @@ const navLinks: NavLink[] = [
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [desktopHoveredItem, setDesktopHoveredItem] = useState<string | null>(null);
-    const [expandedMobileItem, setExpandedMobileItem] = useState<string | null>(null);
+    const [activeMobileMenu, setActiveMobileMenu] = useState<string | null>(null);
     const desktopTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const handleMouseEnter = (name: string) => {
@@ -45,7 +46,7 @@ export default function Navbar() {
 
     // Close mobile menu completely on route change or when closed
     useEffect(() => {
-        if (!isOpen) setExpandedMobileItem(null);
+        if (!isOpen) setActiveMobileMenu(null);
     }, [isOpen]);
 
     // Lock body scroll when menu is open
@@ -162,59 +163,85 @@ export default function Navbar() {
                         animate={{ opacity: 1, height: "100vh" }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="md:hidden absolute top-20 left-0 w-full bg-paper-white flex flex-col items-center gap-8 pt-10 shadow-inner overflow-hidden"
+                        className="md:hidden absolute top-20 left-0 w-full bg-paper-white flex flex-col shadow-inner overflow-hidden"
                     >
-                        {navLinks.map((link) => (
-                            <div key={link.name} className="flex flex-col items-center w-full">
-                                {link.subLinks ? (
-                                    <>
+                        <div className="relative w-full flex-1 pt-10 min-h-[60vh]">
+                            <AnimatePresence initial={false} mode="popLayout">
+                                {!activeMobileMenu ? (
+                                    <motion.div
+                                        key="main-menu"
+                                        initial={{ x: "-100%", opacity: 0 }}
+                                        animate={{ x: 0, opacity: 1 }}
+                                        exit={{ x: "-50%", opacity: 0 }}
+                                        transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+                                        className="absolute inset-x-0 top-0 flex flex-col items-center gap-8 px-4"
+                                    >
+                                        {navLinks.map((link) => (
+                                            <div key={link.name} className="flex flex-col items-center w-full">
+                                                {link.subLinks ? (
+                                                    <button
+                                                        className="text-2xl font-hand text-warm-brown flex items-center justify-center gap-2 w-full py-3 px-4 active:bg-warm-brown/5 rounded-lg transition-colors"
+                                                        onClick={() => setActiveMobileMenu(link.name)}
+                                                    >
+                                                        {link.name}
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-1"><path d="m9 18 6-6-6-6" /></svg>
+                                                    </button>
+                                                ) : (
+                                                    <Link
+                                                        href={link.href}
+                                                        className="text-2xl font-hand text-warm-brown py-3 px-4 w-full text-center active:bg-warm-brown/5 rounded-lg transition-colors"
+                                                        onClick={() => setIsOpen(false)}
+                                                    >
+                                                        {link.name}
+                                                    </Link>
+                                                )}
+                                            </div>
+                                        ))}
+                                        <Link href="/contact" className="bg-terracotta text-white font-hand text-2xl px-8 py-3 rounded-full mt-4" onClick={() => setIsOpen(false)}>
+                                            Inquire for Care
+                                        </Link>
+                                    </motion.div>
+                                ) : (
+                                    <motion.div
+                                        key="sub-menu"
+                                        initial={{ x: "100%", opacity: 0 }}
+                                        animate={{ x: 0, opacity: 1 }}
+                                        exit={{ x: "100%", opacity: 0 }}
+                                        transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+                                        className="absolute inset-x-0 top-0 flex flex-col items-center px-4"
+                                    >
                                         <button
-                                            className="text-2xl font-hand text-warm-brown flex items-center justify-center gap-2 w-full py-3 px-4 active:bg-warm-brown/5 rounded-lg transition-colors"
-                                            onClick={() => setExpandedMobileItem(expandedMobileItem === link.name ? null : link.name)}
-                                            aria-expanded={expandedMobileItem === link.name}
+                                            className="text-xl font-hand text-warm-brown/60 flex items-center justify-center gap-1 w-full py-2 mb-6 active:bg-warm-brown/5 rounded-lg transition-colors"
+                                            onClick={() => setActiveMobileMenu(null)}
                                         >
-                                            {link.name}
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={cn("transition-transform duration-200 mt-1", expandedMobileItem === link.name ? "rotate-180 text-terracotta" : "")}><path d="m6 9 6 6 6-6" /></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+                                            Back
                                         </button>
 
-                                        <AnimatePresence>
-                                            {expandedMobileItem === link.name && (
+                                        <div className="w-full flex flex-col items-center">
+                                            {/* Apple timer style overlay effect - closely stacked with large fonts */}
+                                            {navLinks.find(l => l.name === activeMobileMenu)?.subLinks?.map((subLink, index) => (
                                                 <motion.div
-                                                    initial={{ height: 0, opacity: 0 }}
-                                                    animate={{ height: "auto", opacity: 1 }}
-                                                    exit={{ height: 0, opacity: 0 }}
-                                                    className="overflow-hidden flex flex-col items-center w-full"
+                                                    key={subLink.name}
+                                                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                    transition={{ delay: index * 0.05 + 0.1, type: "spring", stiffness: 300, damping: 20 }}
+                                                    className="w-full flex justify-center -my-1 relative z-10 hover:z-20"
                                                 >
-                                                    <div className="flex flex-col items-center py-2 gap-2 w-full bg-warm-brown/5 mb-4 border-y border-warm-brown/10 shadow-inner">
-                                                        {link.subLinks.map((subLink) => (
-                                                            <Link
-                                                                key={subLink.name}
-                                                                href={subLink.href}
-                                                                className="text-xl font-hand text-warm-brown/90 hover:text-terracotta py-3 px-8 w-full text-center active:bg-white/50"
-                                                                onClick={() => setIsOpen(false)}
-                                                            >
-                                                                {subLink.name}
-                                                            </Link>
-                                                        ))}
-                                                    </div>
+                                                    <Link
+                                                        href={subLink.href}
+                                                        className="text-3xl font-hand text-warm-brown py-4 px-6 w-[90%] text-center bg-paper-white/80 active:bg-warm-brown/10 rounded-2xl transition-all shadow-sm border border-warm-brown/10 backdrop-blur-md"
+                                                        onClick={() => setIsOpen(false)}
+                                                    >
+                                                        {subLink.name}
+                                                    </Link>
                                                 </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    </>
-                                ) : (
-                                    <Link
-                                        href={link.href}
-                                        className="text-2xl font-hand text-warm-brown py-3 px-4 w-full text-center active:bg-warm-brown/5 rounded-lg transition-colors"
-                                        onClick={() => setIsOpen(false)}
-                                    >
-                                        {link.name}
-                                    </Link>
+                                            ))}
+                                        </div>
+                                    </motion.div>
                                 )}
-                            </div>
-                        ))}
-                        <Link href="/contact" className="bg-terracotta text-white font-hand text-2xl px-8 py-3 rounded-full mt-4" onClick={() => setIsOpen(false)}>
-                            Inquire for Care
-                        </Link>
+                            </AnimatePresence>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
