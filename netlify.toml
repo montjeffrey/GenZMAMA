@@ -1,1 +1,17 @@
+# This site has been taken out of production.
+#
+# Netlify publishes the static `site/` directory, which contains a single
+# blank page. There is no build step, no dependencies, and no serverless
+# functions, so nothing from the previous application is deployed.
+#
+# The full site source is preserved in git — see README.md for how to restore it.
 
+[build]
+  publish = "site"
+  command = ""
+
+# Serve the blank page for every path so old URLs no longer expose the site.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

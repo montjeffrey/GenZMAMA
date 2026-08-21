@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gen Z Mama — out of production
 
-## Getting Started
+This repository is no longer running a live site. The branch deployed by Netlify
+publishes a single blank page (`site/index.html`) with no build step, no
+dependencies, and no serverless functions.
 
-First, run the development server:
+Every path returns that blank page, so none of the previous pages, the Sanity
+Studio at `/studio`, or the contact form endpoint are reachable any more.
+
+## Where the site went
+
+Nothing was deleted. The complete Next.js application — marketing pages, Sanity
+Studio, blog, contact form, images — is preserved in git:
+
+| What | Where |
+| --- | --- |
+| Final production snapshot | branch `backup/production-site-final` (commit `97b8775`) |
+| Full history | this repository's commit history, unchanged |
+
+Browse or download it on GitHub:
+<https://github.com/montjeffrey/GenZMAMA/tree/backup/production-site-final>
+
+## How to restore the site
 
 ```bash
+# Look at the archived site
+git checkout backup/production-site-final
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Or bring it back to the deployed branch
+git checkout main
+git restore --source=backup/production-site-final -- .
+git commit -m "Restore production site"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The restored app needs these environment variables (set in Netlify, and in a
+local `.env.local` for development):
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`
+- `RESEND_API_KEY`, `CONTACT_EMAIL`
+- `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`
+- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Remaining cleanup outside this repository
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Taking the repo out of production does not touch the third-party services. If you
+want them shut down too, do it in each provider's dashboard: the Netlify site
+itself (stop builds or delete the site), the Sanity project and dataset, and the
+Resend, Turnstile, and Google Maps API keys.
